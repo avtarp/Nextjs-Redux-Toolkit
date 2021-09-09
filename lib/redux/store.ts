@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { authApi } from './api/authApi';
+import { postApi } from './api/postApi';
 import rootReducer from './rootReducer';
 
 const createStore = (preloadedState: any = []) => {
@@ -10,7 +11,7 @@ const createStore = (preloadedState: any = []) => {
 		middleware: (getDefaultMiddleware: any) =>
 			getDefaultMiddleware({
 				serializableCheck: false,
-			}).concat(authApi.middleware),
+			}).concat(authApi.middleware, postApi.middleware),
 	});
 };
 
