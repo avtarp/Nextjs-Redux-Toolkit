@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import {addTodo} from '../lib/redux/slices/todo';
 import styles from '../styles/Home.module.css'
+import React from 'react'
+import NavBar from '../Layouts/navBarLayout'
 
 
-const Home: NextPage = (props:any) => {
+const Home = (props:any) => {
   const {todos,dispatch} = props;
-
+  console.log(process.env.GREETING)
   const onAddTodo = () => {
     dispatch(addTodo({id:todos.length,title:'Hello'}))
   }
@@ -47,5 +49,9 @@ const mapStateToProps = (state: any) =>{
     todos: state.todo
   }
 }
-
+// Home.getLayout = (page:{page:React.ReactNode})=>{
+//   return <NavBar>
+//     {page}
+//   </NavBar>
+// }
 export default connect(mapStateToProps)(Home)
