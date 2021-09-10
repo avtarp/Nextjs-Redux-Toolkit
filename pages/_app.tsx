@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import App from 'next/app';
-import type { AppProps, AppContext } from 'next/app';
+import type { AppProps } from 'next/app';
 import { persistStore } from 'redux-persist';
 import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { wrapper, initialiseStore } from '../lib/redux/store';
-import NavBar from '../layouts/navBarLayout';
+import NavBar from '../Layouts/navBarLayout';
 
 import { Provider } from 'react-redux';
 import '../styles/globals.css';

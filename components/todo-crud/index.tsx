@@ -1,8 +1,9 @@
 import { useState } from 'react';
-
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Container from '@mui/material/Container';
 import uniqid from 'uniqid';
 import List from './List';
 import { addTodo, Todo as TodoType } from '../../lib/redux/slices/todo';
@@ -22,9 +23,12 @@ const Todo = (props: any) => {
   };
 
   return (
-    <section className={styles.main}>
+    <Container maxWidth='md' className={styles.main}>
       <h2 className={styles.title}>
-        Welcome to <a href='https://nextjs.org'>Next.js!</a>
+        Welcome to{' '}
+        <Link href='https://nextjs.org'>
+          <a target='_blank'>Next.js!</a>
+        </Link>
       </h2>
 
       <div style={{ margin: ' 20px 5px' }} className={styles.grid}>
@@ -43,10 +47,9 @@ const Todo = (props: any) => {
           Add todo
         </Button>
       </div>
-      <div>
-        <List />
-      </div>
-    </section>
+
+      <List />
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
@@ -16,8 +16,8 @@ const TodoList = (props: any) => {
       <Grid container spacing={2} alignItems='center'>
         {todos.map((todo: Todo) => {
           return (
-            <>
-              <Grid key={todo.id} item xs={8}>
+            <React.Fragment key={todo.id}>
+              <Grid item xs={8}>
                 <p>{todo.title}</p>
               </Grid>
               <Grid item xs={4}>
@@ -25,7 +25,7 @@ const TodoList = (props: any) => {
                   Delete
                 </Button>
               </Grid>
-            </>
+            </React.Fragment>
           );
         })}
       </Grid>
