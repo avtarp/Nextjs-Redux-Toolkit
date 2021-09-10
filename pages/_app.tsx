@@ -1,33 +1,53 @@
-import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
+import App from 'next/app';
+import type { AppProps, AppContext } from 'next/app';
+import { persistStore } from 'redux-persist';
+import { useStore } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { wrapper, initialiseStore } from '../lib/redux/store';
 import NavBar from '../layouts/navBarLayout';
-import initialiseStore from '../lib/redux/store';
+
+import { Provider } from 'react-redux';
 import '../styles/globals.css';
 
 type propsWithLayout = AppProps & {
-	Component: AppProps['Component'] & {
-		getLayout?: any;
-	};
+  Component: AppProps['Component'] & {
+    getLayout?: any;
+  };
 };
 
 function MyApp({ Component, pageProps }: propsWithLayout) {
-	// removing on every page refresh
-	useEffect(() => {
-		const jssStyles: any = document.querySelector('#jss-server-side');
-		if (jssStyles) {
-			jssStyles.parentElement.removeChild(jssStyles);
-		}
-	}, []);
+  const { props } = pageProps;
+  const store = useStore().getState();
+  const reduxStore = initialiseStore(store);
+  const persistor = persistStore(reduxStore);
 
-	const getLayout = Component.getLayout || ((page: any) => <>{page}</>);
-	const reduxStore = initialiseStore({ todo: [{ id: 1, title: 'test' }] });
+  // removing on every page refresh
+  useEffect(() => {
+    const jssStyles: any = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
 
-	return (
-		<Provider store={reduxStore}>
-			<NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
-		</Provider>
-	);
+  const getLayout = Component.getLayout || ((page: any) => <>{page}</>);
+
+  const hasHeader = () => {
+    if (props.header ?? true) {
+      return <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>;
+    }
+    return <Component {...pageProps} />;
+  };
+
+  return process.browser ? (
+    <Provider store={reduxStore}>{hasHeader()}</Provider>
+  ) : (
+    <Provider store={reduxStore}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        {hasHeader()}
+      </PersistGate>
+    </Provider>
+  );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
