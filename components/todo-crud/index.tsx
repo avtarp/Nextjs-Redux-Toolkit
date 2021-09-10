@@ -31,7 +31,7 @@ const Todo = (props: any) => {
         </Link>
       </h2>
 
-      <div style={{ margin: ' 20px 5px' }} className={styles.grid}>
+      <div className={styles.inputBox}>
         <TextField
           name='title'
           size='small'
@@ -42,7 +42,7 @@ const Todo = (props: any) => {
           color='primary'
           variant='contained'
           onClick={onAddTodo}
-          style={{ marginLeft: '5px' }}
+          className={styles.button}
         >
           Add todo
         </Button>

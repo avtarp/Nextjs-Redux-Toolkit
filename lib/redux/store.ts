@@ -1,7 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import { persistReducer } from 'redux-persist';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 
 import storage from 'redux-persist/lib/storage';
@@ -20,13 +29,14 @@ const createStore = (preloadedState: any = {}) => {
     middleware: (getDefaultMiddleware: any) =>
       getDefaultMiddleware({
         serializableCheck: false,
+        // ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       }).concat(authApi.middleware, postApi.middleware),
 
     preloadedState,
   });
 };
 
-let store: any = createStore();
+let store: any;
 export const initialiseStore = (preloadedState?: any) => {
   let _store = store ?? createStore(preloadedState);
 
@@ -50,4 +60,4 @@ export const useAppDispatch = (): any => useDispatch<AppDispatch>();
 export const wrapper = createWrapper(initialiseStore);
 
 //Enable refetchOnMount and refetchOnReconnect behaviors.
-setupListeners(store.dispatch);
+// setupListeners(store.dispatch);
