@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: propsWithLayout) {
   const getLayout = Component.getLayout || ((page: any) => <>{page}</>);
 
   const hasHeader = () => {
-    if (props.header ?? true) {
+    if (props?.header ?? true) {
       return <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>;
     }
     return <Component {...pageProps} />;

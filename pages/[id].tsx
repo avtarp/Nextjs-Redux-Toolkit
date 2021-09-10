@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import Button from '@mui/material/Button';
 import uniqid from 'uniqid';
 import { addTodo } from '../lib/redux/slices/todo';
 
