@@ -17,7 +17,7 @@ type propsWithLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: propsWithLayout) {
   const { props } = pageProps;
-  const store = useStore().getState();
+  const store = useStore();
   const reduxStore = initialiseStore(store);
   const persistor = persistStore(reduxStore);
 
@@ -39,13 +39,13 @@ function MyApp({ Component, pageProps }: propsWithLayout) {
   };
 
   return process.browser ? (
-    <Provider store={reduxStore}>{hasHeader()}</Provider>
-  ) : (
     <Provider store={reduxStore}>
-      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         {hasHeader()}
       </PersistGate>
     </Provider>
+  ) : (
+    <Provider store={reduxStore}>{hasHeader()}</Provider>
   );
 }
 

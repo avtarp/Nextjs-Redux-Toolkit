@@ -23,20 +23,25 @@ const todoPersistConfig = {
   storage,
 };
 
+const isClient: boolean = typeof window !== 'undefined';
+
 const createStore = (preloadedState: any = {}) => {
+  const reducer: any = isClient
+    ? persistReducer(todoPersistConfig, rootReducer)
+    : rootReducer;
+
   return configureStore({
-    reducer: persistReducer(todoPersistConfig, rootReducer),
+    reducer,
     middleware: (getDefaultMiddleware: any) =>
       getDefaultMiddleware({
         serializableCheck: false,
         // ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       }).concat(authApi.middleware, postApi.middleware),
-
     preloadedState,
   });
 };
 
-let store: any;
+let store: any = createStore();
 export const initialiseStore = (preloadedState?: any) => {
   let _store = store ?? createStore(preloadedState);
 
@@ -46,11 +51,11 @@ export const initialiseStore = (preloadedState?: any) => {
   }
 
   // For SSG and SSR always create a new store
-  if (typeof window === 'undefined') return _store;
+  if (!isClient) return _store;
   // Create the store once in the client
   if (!store) store = _store;
 
-  return _store;
+  return store;
 };
 
 export type AppDispatch = typeof store.dispatch;
@@ -60,4 +65,4 @@ export const useAppDispatch = (): any => useDispatch<AppDispatch>();
 export const wrapper = createWrapper(initialiseStore);
 
 //Enable refetchOnMount and refetchOnReconnect behaviors.
-// setupListeners(store.dispatch);
+setupListeners(store.dispatch);
