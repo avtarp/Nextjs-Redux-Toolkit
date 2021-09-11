@@ -3,6 +3,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useGetPostQuery } from '../../lib/redux/api/postApi';
+import { postStyle } from './../../styles/postStyle';
 
 const Post: React.VFC = () => {
 	const {
@@ -14,6 +15,8 @@ const Post: React.VFC = () => {
 	console.log('postData', postData);
 
 	const postImgUrl = postData && postData.post_image;
+
+	const classes = postStyle();
 
 	// console.log('postImgUrl', postImgUrl);
 
@@ -45,6 +48,7 @@ const Post: React.VFC = () => {
 					)}
 				</Box>
 			</Box>
+			<h1 className={classes.text}>Hello</h1>
 		</Box>
 	);
 };

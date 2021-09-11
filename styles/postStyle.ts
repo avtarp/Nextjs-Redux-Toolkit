@@ -12,10 +12,13 @@ export const postStyle = makeStyles((theme: Theme) =>
 			padding: '20px 10px !important',
 			textTransform: 'none',
 
-			[theme.breakpoints.only('xs')]: {
+			[theme.breakpoints.up('xs')]: {
 				minHeight: '200 !important',
 				overflow: 'scroll',
 			},
+		},
+		text: {
+			color: 'green',
 		},
 	})
 );
