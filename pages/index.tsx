@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 			</Head>
              
 			<main className={styles.main}>
-				{/* {!session && (
+				{!session && (
 					<>
 					<h3>Not signed in</h3>
 					<button onClick ={userSignIn} >Sign In </button>
@@ -50,27 +50,23 @@ const Home: NextPage = () => {
                      </>
 				)
 
-				} */}
+				}
 				<h1 className={styles.title}>
 					Welcome Team to <a href="https://nextjs.org">Next.js!</a>
 				</h1>
-
-				<div>
-					<Button color="primary" onClick={onAddTodo}>
-						Add todo
-					</Button>
+				</main>
 				</div>
-				{todos.map((todo: any) => (
-					<p key={todo.id}>{todo.title}</p>
-				))}
-			</main>
-		</div>
-	);
+	)
+			}
+
+// getInitialProps and getServerSideProps are run time
+// getStaticProps and getStaticPaths are build time
+Home.getInitialProps = async (ctx: any) => {
+  return {
+    props: {
+      header: false,
+    },
+  };
 };
 
-// Home.getLayout = (page:{page:React.ReactNode})=>{
-//   return <NavBar>
-//     {page}
-//   </NavBar>
-// }
 export default Home;
