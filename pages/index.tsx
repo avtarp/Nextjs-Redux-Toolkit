@@ -5,6 +5,8 @@ const Home: NextPage = (props: any) => {
   return <Todo />;
 };
 
+// getInitialProps and getServerSideProps are run time
+// getStaticProps and getStaticPaths are build time
 Home.getInitialProps = async (ctx: any) => {
   return {
     props: {
