@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/client"
 import { useState } from "react";
-import GetTokenValue from './hooks/getTokenValue'
+import GetTokenValue from '../hooks/getTokenValue'
 
 const Dashboard = () =>{
     const token = GetTokenValue()
