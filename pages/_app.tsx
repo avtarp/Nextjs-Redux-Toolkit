@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import NavBar from '../layouts/navBarLayout';
+import { Provider as AuthProvider } from 'next-auth/client';
 import initialiseStore from '../lib/redux/store';
 import '../styles/globals.css';
 
@@ -25,7 +26,9 @@ function MyApp({ Component, pageProps }: propsWithLayout) {
 
 	return (
 		<Provider store={reduxStore}>
-			<NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
+			<AuthProvider session={pageProps.session}>
+			   <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
+			</AuthProvider>
 		</Provider>
 	);
 }
