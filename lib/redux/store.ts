@@ -1,34 +1,28 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
+
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 
-import storage from 'redux-persist/lib/storage';
 import { authApi } from './api/authApi';
 import { postApi } from './api/postApi';
 import rootReducer from './rootReducer';
 
-const todoPersistConfig = {
-  key: 'root',
-  storage,
-};
-
 const isClient: boolean = typeof window !== 'undefined';
 
 const createStore = (preloadedState: any = {}) => {
-  const reducer: any = isClient
-    ? persistReducer(todoPersistConfig, rootReducer)
-    : rootReducer;
+  let reducer: any = rootReducer;
+
+  if (isClient) {
+    const storage = require('redux-persist/lib/storage').default;
+    const { persistReducer } = require('redux-persist');
+
+    const todoPersistConfig = {
+      key: 'root',
+      storage,
+    };
+    reducer = persistReducer(todoPersistConfig, rootReducer);
+  }
 
   return configureStore({
     reducer,
@@ -43,17 +37,11 @@ const createStore = (preloadedState: any = {}) => {
 
 let store: any = createStore();
 export const initialiseStore = (preloadedState?: any) => {
-  let _store = store ?? createStore(preloadedState);
+  store = store ?? createStore(preloadedState);
 
   if (preloadedState && store) {
-    _store = createStore({ ...store.getState(), ...preloadedState });
-    store = undefined;
+    store = createStore({ ...store.getState(), ...preloadedState });
   }
-
-  // For SSG and SSR always create a new store
-  if (!isClient) return _store;
-  // Create the store once in the client
-  if (!store) store = _store;
 
   return store;
 };
