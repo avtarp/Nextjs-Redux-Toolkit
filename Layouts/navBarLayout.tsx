@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Link from "next/link";
 import React, { useState } from "react";
 import { signIn, signOut } from "next-auth/client";
-import GetTokenValue from "../pages/hooks/getTokenValue";
+import GetTokenValue from "../hooks/getTokenValue";
 export default function NavBar({
   children,
 }: {
