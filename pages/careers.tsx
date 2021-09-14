@@ -6,7 +6,6 @@ import ConnectWithFutureSec from '../components/careers/ConnectWithFutureSec';
 import MakePaymentsOnlineSec from '../components/careers/MakePaymentsOnlineSec';
 import StayUpToDateSec from '../components/careers/StayUpToDateSec';
 import WeWillHelpSec from '../components/careers/WeWillHelpSec';
-import GetTokenValue from '../hooks/getTokenValue';
 
 const Careers = () => {
 	return (

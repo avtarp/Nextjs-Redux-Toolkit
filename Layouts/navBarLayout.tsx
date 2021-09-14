@@ -1,24 +1,19 @@
-import { Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { signIn, signOut } from 'next-auth/client';
 import Link from 'next/link';
 import React from 'react';
-import GetTokenValue from '../hooks/getTokenValue';
 export default function NavBar({
 	children,
 }: {
 	children: React.ReactNode;
 }): JSX.Element {
-	const tokenValue = GetTokenValue();
-
-	const userSignIn = () => {
-		signIn();
-	};
-	const userSignOut = () => {
-		signOut({
-			callbackUrl: `/`,
-		});
-	};
+	// const userSignIn = () => {
+	// 	signIn();
+	// };
+	// const userSignOut = () => {
+	// 	signOut({
+	// 		callbackUrl: `/`,
+	// 	});
+	// };
 	return (
 		<>
 			{' '}
@@ -47,7 +42,7 @@ export default function NavBar({
 							<a style={{ fontWeight: 'bold', marginLeft: '10px' }}>careers</a>
 						</Link>
 					</Box>
-					<Box>
+					{/* <Box>
 						{!tokenValue && (
 							<Button
 								onClick={userSignIn}
@@ -72,7 +67,7 @@ export default function NavBar({
 								Sign out{' '}
 							</Button>
 						)}
-					</Box>
+					</Box> */}
 				</Box>
 			</Box>
 			{children}

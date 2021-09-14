@@ -1,12 +1,9 @@
-import GetTokenValue from '../hooks/getTokenValue';
-
 const Dashboard = () => {
-	const token = GetTokenValue();
+	const token = 'abcd';
 	return (
 		<>
-			<h3>TOken: {token} </h3>
+			<h3>TOken: {} </h3>
 		</>
 	);
 };
 export default Dashboard;
-
