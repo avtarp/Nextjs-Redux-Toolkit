@@ -1,33 +1,80 @@
-import Box from '@mui/material/Box';
+import { Button } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import { signIn, signOut } from 'next-auth/client';
 import Link from 'next/link';
 import React from 'react';
-
+import GetTokenValue from '../hooks/getTokenValue';
 export default function NavBar({
 	children,
 }: {
 	children: React.ReactNode;
 }): JSX.Element {
+	const tokenValue = GetTokenValue();
+
+	const userSignIn = () => {
+		signIn();
+	};
+	const userSignOut = () => {
+		signOut({
+			callbackUrl: `/`,
+		});
+	};
 	return (
 		<>
-			<Box
-				style={{
-					background: 'teal',
-					height: '60px',
-					color: 'white',
-					padding: '20px',
-				}}
-			>
-				<Link href="/todo_list">
-					<a style={{ fontWeight: 'bold', marginRight: '10px' }}>TODO</a>
-				</Link>
-				<Link href="/">
-					<a style={{ fontWeight: 'bold' }}>HOME</a>
-				</Link>
-				<Link href="/posts">
-					<a style={{ fontWeight: 'bold', marginLeft: '10px' }}>POSTS</a>
-				</Link>
+			{' '}
+			<Box>
+				<Box
+					style={{
+						background: 'teal',
+						height: '60px',
+						color: 'white',
+						padding: '20px',
+						display: 'flex',
+						justifyContent: 'space-between',
+					}}
+				>
+					<Box>
+						<Link href="/todo_list">
+							<a style={{ fontWeight: 'bold', marginRight: '10px' }}>TODO</a>
+						</Link>
+						<Link href="/">
+							<a style={{ fontWeight: 'bold' }}>HOME</a>
+						</Link>
+						<Link href="/posts">
+							<a style={{ fontWeight: 'bold', marginLeft: '10px' }}>POSTS</a>
+						</Link>
+						<Link href="/careers">
+							<a style={{ fontWeight: 'bold', marginLeft: '10px' }}>careers</a>
+						</Link>
+					</Box>
+					<Box>
+						{!tokenValue && (
+							<Button
+								onClick={userSignIn}
+								style={{
+									fontWeight: 'bold',
+									marginLeft: '15px',
+									color: 'white',
+								}}
+							>
+								Sign In{' '}
+							</Button>
+						)}
+						{tokenValue && (
+							<Button
+								onClick={userSignOut}
+								style={{
+									fontWeight: 'bold',
+									marginLeft: '15px',
+									color: 'white',
+								}}
+							>
+								Sign out{' '}
+							</Button>
+						)}
+					</Box>
+				</Box>
 			</Box>
-
 			{children}
 		</>
 	);

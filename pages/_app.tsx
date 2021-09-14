@@ -1,23 +1,22 @@
-import { createTheme, Theme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/styles';
+import { Provider as AuthProvider } from 'next-auth/client';
 import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useStore } from 'react-redux';
 import NavBar from '../layouts/navBarLayout';
-import initialiseStore from '../lib/redux/store';
+import { initialiseStore, wrapper } from '../lib/redux/store';
 import '../styles/globals.css';
 
 type propsWithLayout = AppProps & {
 	Component: AppProps['Component'] & {
-		getLayout: (component: React.ReactNode) => JSX.Element;
+		getLayout?: any;
 	};
 };
 
-declare module '@mui/styles' {
-	interface DefaultTheme extends Theme {}
-}
-
 function MyApp({ Component, pageProps }: propsWithLayout) {
+	const { props } = pageProps;
+	const store = useStore();
+	const reduxStore = initialiseStore(store);
+
 	// removing on every page refresh
 	useEffect(() => {
 		const jssStyles: any = document.querySelector('#jss-server-side');
@@ -28,18 +27,13 @@ function MyApp({ Component, pageProps }: propsWithLayout) {
 
 	const getLayout = Component.getLayout || ((page: any) => <>{page}</>);
 
-	const reduxStore = initialiseStore({ todo: [{ id: 1, title: 'test' }] });
-
-	const theme = createTheme();
-	// const theme = useTheme();
-
 	return (
-		<Provider store={reduxStore}>
-			<ThemeProvider theme={theme}>
+		<AuthProvider>
+			<Provider store={reduxStore}>
 				<NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
-			</ThemeProvider>
-		</Provider>
+			</Provider>
+		</AuthProvider>
 	);
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

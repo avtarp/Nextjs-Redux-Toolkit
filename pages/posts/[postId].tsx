@@ -1,9 +1,9 @@
-import Box from '@mui/material/Box';
+import Box from '@material-ui/core/Box';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useGetPostQuery } from '../../lib/redux/api/postApi';
-import { postStyle } from './../../styles/postStyle';
+import postStyle from './../../styles/postStyle';
 
 const Post: React.VFC = () => {
 	const {

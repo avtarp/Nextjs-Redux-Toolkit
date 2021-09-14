@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
-import { createStyles, makeStyles } from '@mui/styles';
+import { createStyles, makeStyles } from '@material-ui/core';
 
-export const postStyle = makeStyles((theme: Theme) =>
+const postStyle = makeStyles((theme: any) =>
 	createStyles({
 		// reminderdialogstyles
 		boxheight: {
@@ -19,6 +18,9 @@ export const postStyle = makeStyles((theme: Theme) =>
 		},
 		text: {
 			color: 'green',
+			border: '1px solid red',
 		},
 	})
 );
+
+export default postStyle;
